@@ -1,0 +1,15 @@
+#docker-compose.yml (Base)
+version: '3.4'
+services:
+  virtual_board_backend:
+    restart: always
+    build:
+      context: ./VirtualWhiteBoard/backend
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - python
+    
+  python:
+    image: python:3

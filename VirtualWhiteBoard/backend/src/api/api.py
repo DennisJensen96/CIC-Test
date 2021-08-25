@@ -8,8 +8,6 @@ from api.white_board_api import ImageLinks, MotivationalText
 # Third party library
 from flask import Flask
 from flask_restful import Api
-import pandas as pd
-import ast
 
 
 def setup_api():
@@ -30,4 +28,4 @@ def setup_api():
 def init_api():
     app = setup_api()
 
-    app.run()
+    app.run(host="0.0.0.0", debug=True)

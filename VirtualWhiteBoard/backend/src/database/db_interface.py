@@ -109,7 +109,6 @@ class Interface(DatabaseConnection):
     def reset_passsword(self, user_name: str, password: str, new_password: str):
         state: ActionState = self.authenticate_user(
             user_name, password)
-        self.__logger.info(ActionState.FAILED == state)
 
         if ActionState.FAILED == state:
             self.__logger.debug("Authentication failed on reset password")

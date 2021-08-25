@@ -1,19 +1,11 @@
-FROM rust as planner
+FROM python:3
 
-# Build Stage
-FROM rust AS builder
-WORKDIR /usr/src/
+WORKDIR /code
 
-RUN USER=root cargo new ler_2_server
-WORKDIR /usr/src/ler_2_server
-COPY Cargo.toml Cargo.lock ./
-RUN mkdir .cargo
-RUN cargo vendor > .cargo/config
-COPY ./src ./src
-RUN cargo build --release --bin ler_2_server
+COPY requirements.txt .
 
-# Bundle Stage
-FROM rust
-COPY --from=builder /usr/src/ler_2_server/target/release/ler_2_server /usr/local/bin
-USER 1000
-ENTRYPOINT ["/usr/local/bin/ler_2_server"]
+RUN pip install -r requirements.txt
+
+COPY src/ .
+
+CMD [ "python", "./backend.py" ]

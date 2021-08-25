@@ -25,7 +25,6 @@ class Users(Resource):
         parser.add_argument('email', required=False)
 
         args = parser.parse_args()
-        self.__logger.debug(f"{args}")
         state: ActionState = self.__db_interface.create_user(
             args['user_name'], args["password"], args["email"])
 
