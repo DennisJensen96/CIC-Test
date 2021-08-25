@@ -1,0 +1,15 @@
+@startuml backend_login  
+
+participant "Backend API" as BAPI
+participant "User" as U
+
+== Create user ==
+alt If user does not exist
+U -> BAPI : Create user with provided details
+BAPI --> U: User created response 
+end
+== Normal login ==
+U -> BAPI : Authentication Request
+BAPI --> U : Authentication Response
+
+@enduml
