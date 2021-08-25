@@ -8,8 +8,7 @@ import os
 from enum import Enum
 import sqlite3
 import hashlib
-
-from pandas.io import sql
+import json
 
 # VirtualWhiteBoard Project
 from logger.log import get_logger
@@ -110,6 +109,7 @@ class Interface(DatabaseConnection):
     def reset_passsword(self, user_name: str, password: str, new_password: str):
         state: ActionState = self.authenticate_user(
             user_name, password)
+        self.__logger.info(ActionState.FAILED == state)
 
         if ActionState.FAILED == state:
             self.__logger.debug("Authentication failed on reset password")
@@ -119,5 +119,54 @@ class Interface(DatabaseConnection):
 
         sql_query = f"UPDATE {self.user_table} SET password='{hashed_new_pass}' WHERE user_name='{user_name}'"
         self._cursor.execute(sql_query)
+        self._db__connection.commit()
 
         return ActionState.SUCCESS
+
+
+class WhiteBoardData():
+    """[summary]
+    More simple data structure for the whiteboard data based on json.
+    """
+
+    def __init__(self) -> None:
+        base_path = "./data"
+        if not os.path.exists(base_path):
+            os.mkdir(base_path)
+
+        self.json_path = base_path + "/white_board_data.json"
+
+        self.data = {"motivational_text": "", "image_links": []}
+        if os.path.exists(self.json_path):
+            self.load_json_data()
+        else:
+            self.save_json_data()
+
+    def load_json_data(self):
+        with open(self.json_path, "r") as file:
+            self.data = json.load(file)
+
+    def save_json_data(self):
+        json_string = json.dumps(self.data)
+        with open(self.json_path, "w+") as file:
+            file.write(json_string)
+
+    def update_json(self, update_data: dict):
+        """[summary]
+        Will update a dictionary based on keys and if it is another
+        dictionary it will recursively update it.
+        """
+        self.load_json_data()
+        for update_key in update_data.keys():
+            for key in self.data.keys():
+                if update_key == key:
+                    if isinstance(self.data[key], dict):
+                        self.data[key] = self.update_json(
+                            self.data[key], update_data[key])
+                    else:
+                        self.data[key] = update_data[update_key]
+
+        self.save_json_data()
+
+    def get_data(self):
+        return self.data

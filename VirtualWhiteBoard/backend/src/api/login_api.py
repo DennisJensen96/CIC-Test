@@ -1,7 +1,6 @@
 # Standard library
 
 # VirtualBoard components
-from werkzeug.exceptions import Unauthorized
 from database.db_interface import Interface, ActionState
 from logger.log import get_logger
 
@@ -74,3 +73,20 @@ class ResetPassword(Resource):
 
     def __init__(self) -> None:
         self.__db_interface = Interface()
+
+    def post(self):
+        parser = reqparse.RequestParser()
+
+        parser.add_argument('user_name', required=True)
+        parser.add_argument('password', required=True)
+        parser.add_argument('new_password', required=True)
+
+        args = parser.parse_args()
+        state: ActionState = self.__db_interface.reset_passsword(
+            args["user_name"], args["password"], args["new_password"])
+
+        if state == ActionState.SUCCESS:
+            return {}, 200
+
+        unauthorized_response = 401
+        return {}, unauthorized_response

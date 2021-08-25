@@ -7,10 +7,9 @@ database "SQLite3" {
   folder "Users" {
     [Users table]
   }
-  frame "White board data" {
-    [white board data]
-  }
+  
 }
+
 
 package "API endpoints" {
     folder "Users endpoints" {
@@ -23,6 +22,11 @@ package "API endpoints" {
     }
 }
 
+database "JSON File" {
+  frame "White board data" {
+    [white board data]
+  }
+}
 
 ' User API
 [user creation] <-- [Users table]
@@ -30,7 +34,7 @@ package "API endpoints" {
 [reset user password] <-- [Users table]
 
 ' White board data
-[white board data] <-- [data API]
+[data API] --> [white board data]
 
 
 
