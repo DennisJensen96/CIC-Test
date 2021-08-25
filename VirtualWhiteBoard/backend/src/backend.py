@@ -1,13 +1,15 @@
 # VirtualWhiteBoard project
 from logger.log import get_logger, Logger
 from database.db_interface import Interface
+from api.api import init_api
 
 logger: Logger = get_logger(__file__)
 
 
 def init_backend():
     logger.info("Testing")
-    Interface()
+    db_interface = Interface()
+    init_api()
 
 
 def main():

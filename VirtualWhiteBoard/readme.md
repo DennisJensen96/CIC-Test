@@ -6,7 +6,11 @@ As we talk about fast mockup i will go with python as backend and a React based 
 
 ## Backend architechture
 ### API 
-The API needs to support both login and data extraction for contents on the WhiteBoard.
+The API needs to support both login and data extraction for contents on the WhiteBoard. The architecture will look something like this. Did not have time to expand too much on the white board data.  
+
+<p align="center">
+<img src="./backend/doc/backend_components.png">
+</p>
 
 ### Login
 A database setup should be provided for login credentials. Requirements

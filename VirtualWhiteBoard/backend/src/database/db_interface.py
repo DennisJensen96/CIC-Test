@@ -14,9 +14,6 @@ from pandas.io import sql
 # VirtualWhiteBoard Project
 from logger.log import get_logger
 
-# Third party library
-import pandas as pd
-
 
 class ActionState(Enum):
     """[summary]
@@ -81,7 +78,7 @@ class Interface(DatabaseConnection):
         h.update(password.encode('utf-8'))
         return str(h.hexdigest())
 
-    def create_user(self, user_name: str, password: str, email: str = "") -> ActionState:
+    def create_user(self, user_name: str, password: str, email: str = None) -> ActionState:
         hashed_password: str = self.__hash_password(password)
         sql_query = f"INSERT INTO {self.user_table} (user_name, password, email) VALUES(?, ?, ?)"
 

@@ -1,3 +1,4 @@
 coloredlogs
 flask
+flask-restful
 pandas

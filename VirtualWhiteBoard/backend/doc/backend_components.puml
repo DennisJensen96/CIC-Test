@@ -1,0 +1,37 @@
+	
+@startuml backend_components
+
+
+
+database "SQLite3" {
+  folder "Users" {
+    [Users table]
+  }
+  frame "White board data" {
+    [white board data]
+  }
+}
+
+package "API endpoints" {
+    folder "Users endpoints" {
+        [user creation]
+        [user authentication]
+        [reset user password]
+    }
+    folder "White board data endpoints" {
+        [data API]
+    }
+}
+
+
+' User API
+[user creation] <-- [Users table]
+[user authentication] <-- [Users table]
+[reset user password] <-- [Users table]
+
+' White board data
+[white board data] <-- [data API]
+
+
+
+@enduml
